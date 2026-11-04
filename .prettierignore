@@ -7,3 +7,9 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+.gemini
+.agents
+.plans
+.issues
+assets
