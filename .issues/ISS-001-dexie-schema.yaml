@@ -1,7 +1,7 @@
 id: ISS-001
 title: "Configuración de esquema y base de datos local con Dexie.js"
 parent_plan: "altar-de-muertos"
-status: "todo"
+status: "done"
 
 depends_on: []
 blocks: ["ISS-003", "ISS-004", "ISS-005"]
@@ -23,5 +23,5 @@ acceptance_criteria:
 
 github:
   issue_number: 1
-  pr_number: null
+  pr_number: 7
   labels: ["enhancement", "area/storage"]
