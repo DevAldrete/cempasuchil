@@ -4,3 +4,7 @@ export * from './data/cultural-content';
 export * from './data/ofrenda-catalog';
 export { default as CulturalGuide } from './components/CulturalGuide.svelte';
 export { default as OfrendaIcon } from './components/ofrendas/OfrendaIcon.svelte';
+export { default as AltarCanvas } from './components/AltarCanvas.svelte';
+export { default as AltarTier } from './components/AltarTier.svelte';
+export { default as TapeteAserrin } from './components/TapeteAserrin.svelte';
+export { default as OfrendaPicker } from './components/OfrendaPicker.svelte';

@@ -1,7 +1,7 @@
 id: ISS-003
 title: "Catálogo y componentes visuales SVG de ofrendas tradicionales"
 parent_plan: "altar-de-muertos"
-status: "todo"
+status: "done"
 
 depends_on: ["ISS-001"]
 blocks: ["ISS-004"]
@@ -21,5 +21,5 @@ acceptance_criteria:
 
 github:
   issue_number: 3
-  pr_number: null
+  pr_number: 9
   labels: ["enhancement", "area/ui", "design"]
