@@ -10,7 +10,7 @@ Crear una aplicación web local-first y gratuita para diseñar altares de muerto
 - **Dependencies:** `dexie` para almacenamiento robusto en navegador; exportación nativa a canvas/PNG sin sobrecarga.
 
 ## Execution Graph
-- [ ] ISS-001: Configuración de tipos y base de datos local con Dexie.js (no dependencies)
+- [x] ISS-001: Configuración de tipos y base de datos local con Dexie.js (no dependencies)
 - [ ] ISS-002: Sección cultural y narrativa interactiva del Día de Muertos (no dependencies)
 - [ ] ISS-003: Catálogo y componentes visuales SVG de ofrendas tradicionales (depends on ISS-001)
 - [ ] ISS-004: Editor y estructura de altar por niveles configurables (depends on ISS-001, ISS-003)
