@@ -1,7 +1,7 @@
 id: ISS-005
 title: "Gestor de portaretratos y compresión local de fotografías"
 parent_plan: "altar-de-muertos"
-status: "todo"
+status: "done"
 
 depends_on: ["ISS-001", "ISS-004"]
 blocks: ["ISS-006"]
@@ -22,5 +22,5 @@ acceptance_criteria:
 
 github:
   issue_number: 5
-  pr_number: null
+  pr_number: 11
   labels: ["enhancement", "area/photos"]

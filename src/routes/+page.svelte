@@ -4,10 +4,11 @@
 	import { getOrCreateDefaultAltar, createInitialAltar } from '../lib/db/altar-db';
 	import AltarCanvas from '../lib/components/AltarCanvas.svelte';
 	import CulturalGuide from '../lib/components/CulturalGuide.svelte';
+	import MemorialView from '../lib/components/MemorialView.svelte';
 
 	let altar = $state<AltarRecord>(createInitialAltar());
 	let isLoading = $state(true);
-	let currentView = $state<'altar' | 'guia'>('altar');
+	let currentView = $state<'altar' | 'guia' | 'conmemoracion'>('altar');
 
 	onMount(async () => {
 		try {
@@ -19,6 +20,10 @@
 			isLoading = false;
 		}
 	});
+
+	function handleAltarImported(newAltar: AltarRecord) {
+		altar = newAltar;
+	}
 </script>
 
 <svelte:head>
@@ -56,7 +61,7 @@
 			</p>
 
 			<!-- Navegación de vistas -->
-			<nav class="mt-6 flex justify-center gap-3" aria-label="Navegación principal">
+			<nav class="mt-6 flex flex-wrap justify-center gap-3" aria-label="Navegación principal">
 				<button
 					type="button"
 					class="rounded-xl px-5 py-2 text-sm font-bold transition-all {currentView === 'altar'
@@ -65,6 +70,16 @@
 					onclick={() => (currentView = 'altar')}
 				>
 					🕯️ Mi Altar
+				</button>
+				<button
+					type="button"
+					class="rounded-xl px-5 py-2 text-sm font-bold transition-all {currentView ===
+					'conmemoracion'
+						? 'bg-amber-500 text-black shadow-lg shadow-amber-500/30'
+						: 'border border-amber-500/30 bg-black/40 text-amber-200 hover:border-amber-400'}"
+					onclick={() => (currentView = 'conmemoracion')}
+				>
+					✨ Conmemoración y Exportar
 				</button>
 				<button
 					type="button"
@@ -90,6 +105,11 @@
 			</div>
 		{:else if currentView === 'altar'}
 			<AltarCanvas bind:altar />
+		{:else if currentView === 'conmemoracion'}
+			<MemorialView {altar} onAltarImported={handleAltarImported} />
+			<div class="mt-8">
+				<AltarCanvas bind:altar />
+			</div>
 		{:else if currentView === 'guia'}
 			<CulturalGuide />
 		{/if}
