@@ -15,7 +15,7 @@ Crear una aplicación web local-first y gratuita para diseñar altares de muerto
 - [x] ISS-003: Catálogo y componentes visuales SVG de ofrendas tradicionales (depends on ISS-001)
 - [x] ISS-004: Editor y estructura de altar por niveles configurables (depends on ISS-001, ISS-003)
 - [x] ISS-005: Gestor de portaretratos y compresión local de fotos (depends on ISS-001, ISS-004)
-- [ ] ISS-006: Vista conmemorativa y exportador a imagen PNG / JSON (depends on ISS-004, ISS-005)
+- [x] ISS-006: Vista conmemorativa y exportador a imagen PNG / JSON (depends on ISS-004, ISS-005)
 
 ## Verification
 - Ejecutar pruebas unitarias (`pnpm test:unit`), linter (`pnpm lint`) y chequeo de tipos (`pnpm check`).
