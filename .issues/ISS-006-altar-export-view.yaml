@@ -1,0 +1,25 @@
+id: ISS-006
+title: "Vista conmemorativa y exportador a imagen PNG y JSON"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: ["ISS-004", "ISS-005"]
+blocks: []
+
+scope:
+  files_to_touch:
+    - "src/lib/components/MemorialView.svelte"
+    - "src/lib/utils/export-altar.ts"
+    - "src/routes/+page.svelte"
+  forbidden_changes:
+    - "No enviar datos a servicios externos de captura o renderizado."
+
+acceptance_criteria:
+  - "Modo contemplativo con animación de velas parpadeantes y ambiente nocturno cálido."
+  - "Descarga del altar completo en alta resolución como imagen PNG."
+  - "Exportación e importación de archivo JSON para respaldar o compartir el altar sin servidor."
+
+github:
+  issue_number: 6
+  pr_number: null
+  labels: ["enhancement", "area/export"]

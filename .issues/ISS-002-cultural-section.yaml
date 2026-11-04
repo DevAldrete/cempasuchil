@@ -1,0 +1,26 @@
+id: ISS-002
+title: "Sección cultural y narrativa interactiva del Día de Muertos"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: []
+blocks: []
+
+scope:
+  files_to_touch:
+    - "src/lib/components/CulturalGuide.svelte"
+    - "src/lib/data/cultural-content.ts"
+    - "src/lib/data/cultural-content.spec.ts"
+    - "static/assets/"
+  forbidden_changes:
+    - "No usar textos genéricos o en inglés; respetar la autenticidad y calidez de la tradición mexicana."
+
+acceptance_criteria:
+  - "Explicación clara del significado del Día de Muertos y la conexión con los ancestros."
+  - "Guía didáctica sobre los 2, 3 y 7 niveles del altar y el significado de los elementos tradicionales."
+  - "Integración de las imágenes culturales de la carpeta assets optimizadas en static/."
+
+github:
+  issue_number: 2
+  pr_number: null
+  labels: ["enhancement", "area/ui", "content"]

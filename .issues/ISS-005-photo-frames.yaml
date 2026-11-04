@@ -1,0 +1,26 @@
+id: ISS-005
+title: "Gestor de portaretratos y compresión local de fotografías"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: ["ISS-001", "ISS-004"]
+blocks: ["ISS-006"]
+
+scope:
+  files_to_touch:
+    - "src/lib/components/PhotoFrameModal.svelte"
+    - "src/lib/components/PhotoFrame.svelte"
+    - "src/lib/utils/image-processor.ts"
+    - "src/lib/utils/image-processor.spec.ts"
+  forbidden_changes:
+    - "No subir imágenes a ningún servidor ni red externa; procesamiento 100% local."
+
+acceptance_criteria:
+  - "Subida de imágenes con validación de tipo y compresión automática en cliente usando Canvas (máx 1200px / ~500KB)."
+  - "Portaretratos decorado con marco dorado/madera tradicional, nombre del difunto y dedicatoria."
+  - "Almacenamiento seguro en Dexie.js y posibilidad de editar o retirar la foto."
+
+github:
+  issue_number: 5
+  pr_number: null
+  labels: ["enhancement", "area/photos"]

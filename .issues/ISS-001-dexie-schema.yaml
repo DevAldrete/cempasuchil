@@ -1,0 +1,27 @@
+id: ISS-001
+title: "Configuración de esquema y base de datos local con Dexie.js"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: []
+blocks: ["ISS-003", "ISS-004", "ISS-005"]
+
+scope:
+  files_to_touch:
+    - "package.json"
+    - "pnpm-lock.yaml"
+    - "src/lib/types/altar.ts"
+    - "src/lib/db/altar-db.ts"
+    - "src/lib/db/altar-db.spec.ts"
+  forbidden_changes:
+    - "No añadir ORMs pesados ni librerías de backend; mantener Dexie.js minimalista."
+
+acceptance_criteria:
+  - "Dexie instalado e inicializado para tablas de altares, elementos y fotos."
+  - "Tipos de TypeScript definidos para Altar, OfrendaItem, Nivel y Foto."
+  - "Pruebas unitarias que validan creación, lectura y actualización en la base local."
+
+github:
+  issue_number: 1
+  pr_number: null
+  labels: ["enhancement", "area/storage"]

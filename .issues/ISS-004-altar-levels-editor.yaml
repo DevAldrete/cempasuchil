@@ -1,0 +1,28 @@
+id: ISS-004
+title: "Editor interactivo y estructura del altar por niveles"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: ["ISS-001", "ISS-003"]
+blocks: ["ISS-005", "ISS-006"]
+
+scope:
+  files_to_touch:
+    - "src/lib/components/AltarCanvas.svelte"
+    - "src/lib/components/AltarTier.svelte"
+    - "src/lib/components/OfrendaPicker.svelte"
+    - "src/lib/components/TapeteAserrin.svelte"
+    - "src/routes/+page.svelte"
+  forbidden_changes:
+    - "No implementar drag-and-drop complejo con dependencias externas cuando slots accesibles e interactivos son más fiables y responsivos."
+
+acceptance_criteria:
+  - "Configuración dinámica del altar a 2, 3 o 7 niveles tradicionales."
+  - "Selección y colocación interactiva de ofrendas en cada escalón."
+  - "Suelo con tapete de aserrín y camino de pétalos de cempasúchil configurable."
+  - "Persistencia en tiempo real en Dexie.js."
+
+github:
+  issue_number: 4
+  pr_number: null
+  labels: ["enhancement", "area/editor"]

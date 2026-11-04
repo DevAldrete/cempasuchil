@@ -1,0 +1,25 @@
+id: ISS-003
+title: "Catálogo y componentes visuales SVG de ofrendas tradicionales"
+parent_plan: "altar-de-muertos"
+status: "todo"
+
+depends_on: ["ISS-001"]
+blocks: ["ISS-004"]
+
+scope:
+  files_to_touch:
+    - "src/lib/components/ofrendas/"
+    - "src/lib/data/ofrenda-catalog.ts"
+    - "src/lib/data/ofrenda-catalog.spec.ts"
+  forbidden_changes:
+    - "No usar librerías de iconos genéricos ni imágenes pesadas para las ofrendas decorativas."
+
+acceptance_criteria:
+  - "Componentes SVG interactivos para pan de muerto, calaverita de azúcar y barro, cempasúchil, veladora con llama animada, papel picado, sal, agua e incienso/copal."
+  - "Catálogo tipado con nombres en español, descripciones culturales y categorías de colocación."
+  - "Pruebas unitarias que verifiquen la integridad del catálogo de ofrendas."
+
+github:
+  issue_number: 3
+  pr_number: null
+  labels: ["enhancement", "area/ui", "design"]
