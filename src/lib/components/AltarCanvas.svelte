@@ -1,20 +1,29 @@
 <script lang="ts">
-	import type { AltarRecord, AltarLevelCount, SlotItem, OfrendaType } from '../types/altar';
+	import { onMount } from 'svelte';
+	import type {
+		AltarRecord,
+		AltarLevelCount,
+		SlotItem,
+		OfrendaType,
+		PhotoRecord
+	} from '../types/altar';
 	import { ALTAR_LEVELS_EXPLANATION } from '../data/cultural-content';
-	import { saveAltar } from '../db/altar-db';
+	import { saveAltar, getAllPhotos } from '../db/altar-db';
 	import AltarTier from './AltarTier.svelte';
 	import TapeteAserrin from './TapeteAserrin.svelte';
 	import OfrendaPicker from './OfrendaPicker.svelte';
+	import PhotoFrameModal from './PhotoFrameModal.svelte';
 	import PapelPicadoSvg from './ofrendas/PapelPicadoSvg.svelte';
 
 	interface Props {
 		altar: AltarRecord;
-		onOpenPhotoManager?: (levelIndex: number, slotIndex: number) => void;
 	}
 
-	let { altar = $bindable(), onOpenPhotoManager }: Props = $props();
+	let { altar = $bindable() }: Props = $props();
 
 	let isCandleLit = $state(true);
+	let photosMap = $state<Record<string, PhotoRecord>>({});
+
 	let pickerState = $state<{
 		isOpen: boolean;
 		levelIndex: number;
@@ -25,6 +34,34 @@
 		levelIndex: 1,
 		slotIndex: 0
 	});
+
+	let photoModalState = $state<{
+		isOpen: boolean;
+		levelIndex: number;
+		slotIndex: number;
+		currentPhotoId?: string;
+	}>({
+		isOpen: false,
+		levelIndex: 1,
+		slotIndex: 0
+	});
+
+	onMount(async () => {
+		await refreshPhotos();
+	});
+
+	async function refreshPhotos() {
+		try {
+			const list = await getAllPhotos();
+			const map: Record<string, PhotoRecord> = {};
+			for (const p of list) {
+				map[p.id] = p;
+			}
+			photosMap = map;
+		} catch (e) {
+			console.error('Error cargando fotos en altar:', e);
+		}
+	}
 
 	// Determinar nombres didácticos de cada nivel según la configuración
 	const currentLevelsMeta = $derived(
@@ -49,11 +86,22 @@
 		await saveAltar(altar);
 	}
 
-	// Abrir selector de ofrenda
+	// Abrir selector de ofrenda o portaretratos
 	function handleSlotClick(levelIndex: number, slotIndex: number) {
 		const existing = altar.items.find(
 			(i) => i.levelIndex === levelIndex && i.slotIndex === slotIndex
 		);
+
+		if (existing?.type === 'foto') {
+			photoModalState = {
+				isOpen: true,
+				levelIndex,
+				slotIndex,
+				currentPhotoId: existing.photoId
+			};
+			return;
+		}
+
 		pickerState = {
 			isOpen: true,
 			levelIndex,
@@ -93,6 +141,43 @@
 			(i) => !(i.levelIndex === levelIndex && i.slotIndex === slotIndex)
 		);
 		pickerState.isOpen = false;
+		await saveAltar(altar);
+	}
+
+	// Colocar foto desde PhotoFrameModal
+	async function handleSelectPhoto(photo: PhotoRecord) {
+		const { levelIndex, slotIndex } = photoModalState;
+		photosMap[photo.id] = photo;
+
+		const existingIndex = altar.items.findIndex(
+			(i) => i.levelIndex === levelIndex && i.slotIndex === slotIndex
+		);
+
+		const newItem: SlotItem = {
+			id: `slot-${levelIndex}-${slotIndex}-${Date.now()}`,
+			type: 'foto',
+			photoId: photo.id,
+			levelIndex,
+			slotIndex
+		};
+
+		if (existingIndex >= 0) {
+			altar.items[existingIndex] = newItem;
+		} else {
+			altar.items.push(newItem);
+		}
+
+		photoModalState.isOpen = false;
+		await saveAltar(altar);
+	}
+
+	// Retirar foto del escalón
+	async function handleRemovePhoto() {
+		const { levelIndex, slotIndex } = photoModalState;
+		altar.items = altar.items.filter(
+			(i) => !(i.levelIndex === levelIndex && i.slotIndex === slotIndex)
+		);
+		photoModalState.isOpen = false;
 		await saveAltar(altar);
 	}
 
@@ -179,6 +264,7 @@
 				totalLevels={altar.levelCount}
 				levelName={getLevelName(lvl)}
 				slots={getSlotsForLevel(lvl)}
+				{photosMap}
 				slotCount={lvl === 1 ? 3 : Math.min(3 + Math.floor(lvl / 2), 5)}
 				{isCandleLit}
 				onSlotClick={handleSlotClick}
@@ -203,12 +289,23 @@
 		onSelect={handleSelectOfrenda}
 		onRemove={handleRemoveOfrenda}
 		onOpenPhotoManager={() => {
-			if (onOpenPhotoManager) {
-				const { levelIndex, slotIndex } = pickerState;
-				pickerState.isOpen = false;
-				onOpenPhotoManager(levelIndex, slotIndex);
-			}
+			const { levelIndex, slotIndex } = pickerState;
+			pickerState.isOpen = false;
+			photoModalState = {
+				isOpen: true,
+				levelIndex,
+				slotIndex
+			};
 		}}
 		onClose={() => (pickerState.isOpen = false)}
+	/>
+
+	<!-- Modal de Gestión y Subida de Fotos -->
+	<PhotoFrameModal
+		isOpen={photoModalState.isOpen}
+		currentPhotoId={photoModalState.currentPhotoId}
+		onSelectPhoto={handleSelectPhoto}
+		onRemovePhoto={handleRemovePhoto}
+		onClose={() => (photoModalState.isOpen = false)}
 	/>
 </div>

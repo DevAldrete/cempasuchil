@@ -1,12 +1,14 @@
 <script lang="ts">
-	import type { SlotItem } from '../types/altar';
+	import type { SlotItem, PhotoRecord } from '../types/altar';
 	import OfrendaIcon from './ofrendas/OfrendaIcon.svelte';
+	import PhotoFrame from './PhotoFrame.svelte';
 
 	interface Props {
 		levelIndex: number;
 		totalLevels: 2 | 3 | 7;
 		levelName?: string;
 		slots: SlotItem[];
+		photosMap?: Record<string, PhotoRecord>;
 		slotCount?: number;
 		isCandleLit?: boolean;
 		onSlotClick: (levelIndex: number, slotIndex: number) => void;
@@ -17,6 +19,7 @@
 		totalLevels,
 		levelName = '',
 		slots,
+		photosMap = {},
 		slotCount = 3,
 		isCandleLit = true,
 		onSlotClick
@@ -75,9 +78,19 @@
 					aria-label={item ? `Ofrenda: ${item.type}` : `Colocar ofrenda en ranura ${slotIdx + 1}`}
 				>
 					{#if item}
-						<div class="relative flex h-full w-full items-center justify-center p-2">
-							<OfrendaIcon type={item.type} size={64} isLit={isCandleLit} />
-						</div>
+						{#if item.type === 'foto'}
+							<div class="relative flex h-full w-full items-center justify-center p-1">
+								<PhotoFrame
+									photo={item.photoId ? photosMap[item.photoId] : undefined}
+									size="sm"
+									class="pointer-events-none"
+								/>
+							</div>
+						{:else}
+							<div class="relative flex h-full w-full items-center justify-center p-2">
+								<OfrendaIcon type={item.type} size={64} isLit={isCandleLit} />
+							</div>
+						{/if}
 						<!-- Indicador para cambiar / editar -->
 						<span
 							class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-black opacity-0 shadow transition-opacity group-hover:opacity-100"
